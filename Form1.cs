@@ -37,6 +37,7 @@ namespace Test8
             textBox5.Visible = false;
             linkLabel2.Visible = false;
             linkLabel3.Visible = false;
+            button5.Visible = false;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -155,6 +156,7 @@ namespace Test8
             button2.Visible = true;
             label6.Visible = true;
             textBox5.Visible = true;
+            button5.Visible = true;
         }
 
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -165,6 +167,19 @@ namespace Test8
         private void linkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Process.Start("https://reallyifs.coding.net/public/Nan-Test8/master/git/files");
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            textBox5.Text = "0.1.0.2";
+            checkBox2.Checked = false;
+            checkBox3.Checked = false;
+            checkBox5.Checked = false;
+            checkBox4.Checked = false;
+            checkBox6.Checked = true;
+            checkBox8.Checked = false;
+            checkBox7.Checked = true;
+            checkBox9.Checked = false;
         }
     }
 }
