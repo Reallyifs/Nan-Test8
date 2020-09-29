@@ -74,7 +74,8 @@ namespace Test8
                 checkBox2,
                 checkBox3,
                 checkBox4,
-                button5
+                button5,
+                checkBox10
             };
             Other_Other = new List<Control>()
             {
@@ -124,7 +125,12 @@ namespace Test8
 
         private void button3_Click(object sender, EventArgs e)
         {
-            Chicken();
+            string errorMessage = Chicken();
+            if (errorMessage != null)
+            {
+                MessageBox.Show(errorMessage);
+                return;
+            }
             FolderBrowserDialog dialog = new FolderBrowserDialog()
             {
                 Description = "选择存放的文件夹，默认运行目录",
@@ -132,23 +138,26 @@ namespace Test8
                 ShowNewFolderButton = true
             };
             dialog.ShowDialog();
-            File.WriteAllLines($@"{dialog.SelectedPath}\README.md", new string[]
+            if (checkBox10.Checked)
             {
-                $"# {textBox1.Text}",
-                $"",
-                $"{textBox4.Text}",
-                $"",
-                $"Author: {textBox3.Text}",
-                $"",
-                $"Homepage: {textBox2.Text}"
-            }, Encoding.UTF8);
+                File.WriteAllLines($@"{dialog.SelectedPath}\README.md", new string[]
+                {
+                    $"# {textBox1.Text}",
+                    $"",
+                    $"{textBox4.Text}",
+                    $"",
+                    $"Author: {textBox3.Text}",
+                    $"",
+                    $"Homepage: {textBox2.Text}"
+                }, Encoding.UTF8);
+            }
             if (checkBox2.Checked)
             {
                 List<string> ignoreText = new List<string>();
                 for (int i = 0; i < checkedListBox1.CheckedItems.Count; i++)
                 {
                     string s3 = checkedListBox1.CheckedItems[i].ToString();
-                    if (s3 != "README.md" && s3 != @".git/*" && s3 != ".gitignore"&&s3!= ".gitattributes")
+                    if (s3 != "README.md" && s3 != @".git/*" && s3 != ".gitignore" && s3 != ".gitattributes")
                         ignoreText.Add(checkedListBox1.CheckedItems[i].ToString());
                 }
                 File.WriteAllLines($@"{dialog.SelectedPath}\.gitignore", ignoreText.ToArray(), Encoding.UTF8);
@@ -189,18 +198,14 @@ namespace Test8
                 Close();
         }
 
-        private void Chicken()
+        private string Chicken()
         {
-            foreach(char c in textBox1.Text)
-            {
-                if (!char.IsLetterOrDigit(c))
-                    throw new ArgumentException("Mod Name为你Mod的内部名称，请勿填写除数字和英文外的其他字符");
-            }
             if (checkBox4.Checked)
             {
                 if (!Version.TryParse(textBox5.Text, out _))
-                    throw new ArgumentException("version不可转换，请重新填写");
+                    return "build.txt - version不可转换，请重新填写";
             }
+            return null;
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
